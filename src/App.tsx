@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 import "./App.css";
+import Signup from "./components/Signup";
 
 const useStyles = makeStyles((theme) => ({
     root: {},
@@ -23,6 +24,7 @@ const App: React.FC<AppProps> = () => {
                 <Typography variant="h3" component="h1" className={classes.headerTitle}>
                     Notes App
                 </Typography>
+                <Signup />
             </main>
         </div>
     );
