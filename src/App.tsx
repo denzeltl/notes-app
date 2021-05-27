@@ -5,8 +5,17 @@ import "./App.css";
 import Signup from "./components/Signup";
 
 const useStyles = makeStyles((theme) => ({
-    root: {},
+    root: {
+        height: "100vh",
+    },
     main: {},
+    wrapper: {
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+    },
     headerTitle: {
         textAlign: "center",
         padding: "3rem 0",
@@ -20,12 +29,10 @@ const App: React.FC<AppProps> = () => {
 
     return (
         <div className={classes.root}>
-            <main className={classes.main}>
-                <Typography variant="h3" component="h1" className={classes.headerTitle}>
-                    Notes App
-                </Typography>
+            <main className={classes.main}></main>
+            <div className={classes.wrapper}>
                 <Signup />
-            </main>
+            </div>
         </div>
     );
 };
