@@ -1,6 +1,11 @@
-import React, { useRef } from "react";
-import { makeStyles, Grid, TextField, Button, Typography, Paper, Link } from "@material-ui/core";
-import { Email as EmailIcon, Lock as LockIcon } from "@material-ui/icons";
+import React, { useRef, useState } from "react";
+import { makeStyles, TextField, Button, Typography, Paper, Link, Snackbar } from "@material-ui/core";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { useAuth } from "../contexts/AuthContext";
+
+function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -11,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("xl")]: {},
     },
     paper: {
-        padding: "2rem 4rem",
+        padding: "2rem",
         marginBottom: "1rem",
     },
     title: {
@@ -27,9 +32,40 @@ interface SignupProps {}
 
 const Signup: React.FC<SignupProps> = () => {
     const classes = useStyles();
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const confirmPasswordRef = useRef();
+    const emailRef = useRef<HTMLInputElement>();
+    const passwordRef = useRef<HTMLInputElement>();
+    const confirmPasswordRef = useRef<HTMLInputElement>();
+    const { signup }: any = useAuth();
+    const [error, setError] = useState("");
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const handleSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        setOpenSnackbar(false);
+    };
+
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+
+        if (passwordRef.current && confirmPasswordRef.current && passwordRef.current.value !== confirmPasswordRef.current.value) {
+            setOpenSnackbar(true);
+            return setError("Passwords do not match");
+        }
+
+        try {
+            setLoading(true);
+            await signup(emailRef.current && emailRef.current.value, passwordRef.current && passwordRef.current.value);
+        } catch {
+            setOpenSnackbar(true);
+            setError("Failed to create an account");
+        }
+
+        setLoading(false);
+    }
 
     return (
         <div className={classes.root}>
@@ -37,7 +73,7 @@ const Signup: React.FC<SignupProps> = () => {
                 <Typography variant="h4" component="h2" className={classes.title}>
                     Sign Up
                 </Typography>
-                <form className={classes.form} autoComplete="off">
+                <form className={classes.form} autoComplete="off" onSubmit={handleSubmit}>
                     <TextField
                         id="email-input"
                         className={classes.formInput}
@@ -45,7 +81,7 @@ const Signup: React.FC<SignupProps> = () => {
                         type="email"
                         variant="outlined"
                         fullWidth
-                        helperText="Feel free to input a dummy email"
+                        helperText="Feel free to input a fake email"
                         required
                         inputRef={emailRef}
                     />
@@ -71,7 +107,7 @@ const Signup: React.FC<SignupProps> = () => {
                         required
                         inputRef={confirmPasswordRef}
                     />
-                    <Button variant="contained" color="primary" type="submit" fullWidth size="large">
+                    <Button variant="contained" color="primary" type="submit" fullWidth size="large" disabled={loading}>
                         Submit
                     </Button>
                 </form>
@@ -81,6 +117,11 @@ const Signup: React.FC<SignupProps> = () => {
                     Already have an account? Log In
                 </Link>
             </Typography>
+            <Snackbar autoHideDuration={3000} onClose={handleSnackbarClose} open={openSnackbar}>
+                <Alert onClose={handleSnackbarClose} severity="error">
+                    <Typography>{error}</Typography>
+                </Alert>
+            </Snackbar>
         </div>
     );
 };

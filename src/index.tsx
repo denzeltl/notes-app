@@ -5,6 +5,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const theme = createMuiTheme({
     palette: {
@@ -47,7 +48,9 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
     <ThemeProvider theme={theme}>
-        <App />
+        <AuthProvider>
+            <App />
+        </AuthProvider>
     </ThemeProvider>,
     document.getElementById("root")
 );
