@@ -6,6 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { AuthProvider } from "./contexts/AuthContext";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const theme = createMuiTheme({
     palette: {
@@ -47,11 +48,13 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-    <ThemeProvider theme={theme}>
-        <AuthProvider>
-            <App />
-        </AuthProvider>
-    </ThemeProvider>,
+    <Router>
+        <ThemeProvider theme={theme}>
+            <AuthProvider>
+                <App />
+            </AuthProvider>
+        </ThemeProvider>
+    </Router>,
     document.getElementById("root")
 );
 

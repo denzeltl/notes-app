@@ -2,6 +2,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
 import Signup from "./components/Signup";
+import Login from "./components/Login";
+import { Switch, Route } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,7 +32,10 @@ const App: React.FC<AppProps> = () => {
         <div className={classes.root}>
             <main className={classes.main}></main>
             <div className={classes.wrapper}>
-                <Signup />
+                <Switch>
+                    <Route path="/signup" component={Signup}></Route>
+                    <Route path="/login" component={Login}></Route>
+                </Switch>
             </div>
         </div>
     );

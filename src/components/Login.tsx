@@ -29,13 +29,12 @@ const useStyles = makeStyles((theme) => ({
     form: {},
 }));
 
-interface SignupProps {}
+interface LoginProps {}
 
-const Signup: React.FC<SignupProps> = () => {
+const Login: React.FC<LoginProps> = () => {
     const classes = useStyles();
     const emailRef = useRef<HTMLInputElement>();
     const passwordRef = useRef<HTMLInputElement>();
-    const confirmPasswordRef = useRef<HTMLInputElement>();
     const { signup }: any = useAuth();
     const [error, setError] = useState("");
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -52,11 +51,6 @@ const Signup: React.FC<SignupProps> = () => {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
-        if (passwordRef.current && confirmPasswordRef.current && passwordRef.current.value !== confirmPasswordRef.current.value) {
-            setOpenSnackbar(true);
-            return setError("Passwords do not match");
-        }
-
         try {
             setLoading(true);
             await signup(emailRef.current && emailRef.current.value, passwordRef.current && passwordRef.current.value);
@@ -72,20 +66,10 @@ const Signup: React.FC<SignupProps> = () => {
         <div className={classes.root}>
             <Paper elevation={2} className={classes.paper}>
                 <Typography variant="h4" component="h2" className={classes.title}>
-                    Sign Up
+                    Log In
                 </Typography>
                 <form className={classes.form} autoComplete="off" onSubmit={handleSubmit}>
-                    <TextField
-                        id="email-input"
-                        className={classes.formInput}
-                        label="Email Address"
-                        type="email"
-                        variant="outlined"
-                        fullWidth
-                        helperText="Feel free to input a fake email"
-                        required
-                        inputRef={emailRef}
-                    />
+                    <TextField id="email-input" className={classes.formInput} label="Email Address" type="email" variant="outlined" fullWidth required inputRef={emailRef} />
                     <TextField
                         id="password-input"
                         className={classes.formInput}
@@ -97,25 +81,14 @@ const Signup: React.FC<SignupProps> = () => {
                         required
                         inputRef={passwordRef}
                     />
-                    <TextField
-                        id="confirm-password-input"
-                        className={classes.formInput}
-                        label="Confirm Password"
-                        type="password"
-                        variant="outlined"
-                        fullWidth
-                        autoComplete="current-password"
-                        required
-                        inputRef={confirmPasswordRef}
-                    />
                     <Button variant="contained" color="primary" type="submit" fullWidth size="large" disabled={loading}>
-                        Sign Up
+                        Log In
                     </Button>
                 </form>
             </Paper>
             <Typography variant="body1">
-                <Link component={RouterLink} to="/login">
-                    Already have an account? Log In
+                <Link component={RouterLink} to="/signup">
+                    Don't have an account yet? Sign Up
                 </Link>
             </Typography>
             <Snackbar autoHideDuration={3000} onClose={handleSnackbarClose} open={openSnackbar}>
@@ -127,4 +100,4 @@ const Signup: React.FC<SignupProps> = () => {
     );
 };
 
-export default Signup;
+export default Login;
