@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { makeStyles, TextField, Button, Typography, Paper, Link, Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { useAuth } from "../contexts/AuthContext";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useHistory } from "react-router-dom";
 
 function Alert(props: AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -38,8 +38,10 @@ const Signup: React.FC<SignupProps> = () => {
     const confirmPasswordRef = useRef<HTMLInputElement>();
     const { signup }: any = useAuth();
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [loading, setLoading] = useState(false);
+    const history = useHistory();
 
     const handleSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === "clickaway") {
@@ -60,9 +62,26 @@ const Signup: React.FC<SignupProps> = () => {
         try {
             setLoading(true);
             await signup(emailRef.current && emailRef.current.value, passwordRef.current && passwordRef.current.value);
-        } catch {
             setOpenSnackbar(true);
-            setError("Failed to create an account");
+            setError("");
+            setSuccess("Successfully created an account. Please log in");
+            setTimeout(() => {
+                history.push("/login");
+            }, 4000);
+        } catch (error) {
+            if (error.code === "auth/invalid-email") {
+                setOpenSnackbar(true);
+                setError("Please enter a valid email");
+            } else if (error.code === "auth/weak-password") {
+                setOpenSnackbar(true);
+                setError("Please use a stronger password");
+            } else if (error.code === "auth/email-already-in-use") {
+                setOpenSnackbar(true);
+                setError("Email is already existing");
+            } else {
+                setOpenSnackbar(true);
+                setError("Failed to create an account");
+            }
         }
 
         setLoading(false);
@@ -118,9 +137,9 @@ const Signup: React.FC<SignupProps> = () => {
                     Already have an account? Log In
                 </Link>
             </Typography>
-            <Snackbar autoHideDuration={3000} onClose={handleSnackbarClose} open={openSnackbar}>
-                <Alert onClose={handleSnackbarClose} severity="error">
-                    <Typography>{error}</Typography>
+            <Snackbar autoHideDuration={4000} onClose={handleSnackbarClose} open={openSnackbar}>
+                <Alert onClose={handleSnackbarClose} severity={error ? "error" : "success"}>
+                    <Typography>{error ? error : success}</Typography>
                 </Alert>
             </Snackbar>
         </div>

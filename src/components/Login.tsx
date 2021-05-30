@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { makeStyles, TextField, Button, Typography, Paper, Link, Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { useAuth } from "../contexts/AuthContext";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useHistory } from "react-router-dom";
 
 function Alert(props: AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -35,10 +35,11 @@ const Login: React.FC<LoginProps> = () => {
     const classes = useStyles();
     const emailRef = useRef<HTMLInputElement>();
     const passwordRef = useRef<HTMLInputElement>();
-    const { signup }: any = useAuth();
+    const { login }: any = useAuth();
     const [error, setError] = useState("");
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [loading, setLoading] = useState(false);
+    const history = useHistory();
 
     const handleSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === "clickaway") {
@@ -53,10 +54,23 @@ const Login: React.FC<LoginProps> = () => {
 
         try {
             setLoading(true);
-            await signup(emailRef.current && emailRef.current.value, passwordRef.current && passwordRef.current.value);
-        } catch {
-            setOpenSnackbar(true);
-            setError("Failed to create an account");
+            await login(emailRef.current && emailRef.current.value, passwordRef.current && passwordRef.current.value);
+            setError("");
+            history.push("/");
+        } catch (error) {
+            if (error.code === "auth/invalid-email") {
+                setOpenSnackbar(true);
+                setError("Please enter a valid email");
+            } else if (error.code === "auth/user-not-found") {
+                setOpenSnackbar(true);
+                setError("Email not found");
+            } else if (error.code === "auth/wrong-password") {
+                setOpenSnackbar(true);
+                setError("Incorrect password");
+            } else {
+                setOpenSnackbar(true);
+                setError("Failed to log in");
+            }
         }
 
         setLoading(false);
@@ -88,7 +102,7 @@ const Login: React.FC<LoginProps> = () => {
             </Paper>
             <Typography variant="body1">
                 <Link component={RouterLink} to="/signup">
-                    Don't have an account yet? Sign Up
+                    Don't have an account? Sign Up
                 </Link>
             </Typography>
             <Snackbar autoHideDuration={3000} onClose={handleSnackbarClose} open={openSnackbar}>
