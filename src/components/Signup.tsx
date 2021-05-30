@@ -74,7 +74,7 @@ const Signup: React.FC<SignupProps> = () => {
                 setError("Please enter a valid email");
             } else if (error.code === "auth/weak-password") {
                 setOpenSnackbar(true);
-                setError("Please use a stronger password");
+                setError("Password is too weak");
             } else if (error.code === "auth/email-already-in-use") {
                 setOpenSnackbar(true);
                 setError("Email is already existing");

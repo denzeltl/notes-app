@@ -105,7 +105,7 @@ const Login: React.FC<LoginProps> = () => {
                     Don't have an account? Sign Up
                 </Link>
             </Typography>
-            <Snackbar autoHideDuration={3000} onClose={handleSnackbarClose} open={openSnackbar}>
+            <Snackbar autoHideDuration={4000} onClose={handleSnackbarClose} open={openSnackbar}>
                 <Alert onClose={handleSnackbarClose} severity="error">
                     <Typography>{error}</Typography>
                 </Alert>
