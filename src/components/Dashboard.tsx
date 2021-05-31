@@ -50,6 +50,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
         setError("");
 
         try {
+            console.log("object");
             setLoading(true);
             await logout();
             history.push("/login");

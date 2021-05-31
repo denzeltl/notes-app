@@ -1,18 +1,18 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { useAuth } from "../contexts/AuthContext";
+import { Redirect, Route } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        [theme.breakpoints.down("xl")]: {},
-    },
-}));
+interface PrivateRouteProps {
+    exact: any;
+    path: string;
+    component: React.ElementType;
+}
 
-interface PrivateRouteProps {}
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, ...rest }) => {
+    const { currentUser }: any = useAuth();
+    const routeComponent = (props: any) => (currentUser ? <Component {...props} /> : <Redirect to="/login" />);
 
-const PrivateRoute: React.FC<PrivateRouteProps> = () => {
-    const classes = useStyles();
-
-    return <div className={classes.root}></div>;
+    return <Route {...rest} render={routeComponent}></Route>;
 };
 
 export default PrivateRoute;

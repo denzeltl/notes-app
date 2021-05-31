@@ -5,6 +5,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import { Switch, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,9 +35,9 @@ const App: React.FC<AppProps> = () => {
             <main className={classes.main}></main>
             <div className={classes.wrapper}>
                 <Switch>
-                    <Route exact path="/" component={Dashboard}></Route>
-                    <Route path="/signup" component={Signup}></Route>
-                    <Route path="/login" component={Login}></Route>
+                    <PrivateRoute exact path="/" component={Dashboard} />
+                    <Route path="/signup" component={Signup} />
+                    <Route path="/login" component={Login} />
                 </Switch>
             </div>
         </div>
