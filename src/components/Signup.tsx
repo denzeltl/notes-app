@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { makeStyles, TextField, Button, Typography, Paper, Link, Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { useAuth } from "../contexts/AuthContext";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 function Alert(props: AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -38,10 +38,8 @@ const Signup: React.FC<SignupProps> = () => {
     const confirmPasswordRef = useRef<HTMLInputElement>();
     const { signup }: any = useAuth();
     const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [loading, setLoading] = useState(false);
-    const history = useHistory();
 
     const handleSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === "clickaway") {
@@ -62,12 +60,6 @@ const Signup: React.FC<SignupProps> = () => {
         try {
             setLoading(true);
             await signup(emailRef.current && emailRef.current.value, passwordRef.current && passwordRef.current.value);
-            setOpenSnackbar(true);
-            setError("");
-            setSuccess("Successfully created an account. Please log in");
-            setTimeout(() => {
-                history.push("/login");
-            }, 4000);
         } catch (error) {
             if (error.code === "auth/invalid-email") {
                 setOpenSnackbar(true);
@@ -138,8 +130,8 @@ const Signup: React.FC<SignupProps> = () => {
                 </Link>
             </Typography>
             <Snackbar autoHideDuration={4000} onClose={handleSnackbarClose} open={openSnackbar}>
-                <Alert onClose={handleSnackbarClose} severity={error ? "error" : "success"}>
-                    <Typography>{error ? error : success}</Typography>
+                <Alert onClose={handleSnackbarClose} severity="error">
+                    <Typography>{error}</Typography>
                 </Alert>
             </Snackbar>
         </div>
