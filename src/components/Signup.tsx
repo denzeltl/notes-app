@@ -33,6 +33,7 @@ interface SignupProps {}
 
 const Signup: React.FC<SignupProps> = () => {
     const classes = useStyles();
+    const nameRef = useRef<HTMLInputElement>();
     const emailRef = useRef<HTMLInputElement>();
     const passwordRef = useRef<HTMLInputElement>();
     const confirmPasswordRef = useRef<HTMLInputElement>();
@@ -59,7 +60,9 @@ const Signup: React.FC<SignupProps> = () => {
 
         try {
             setLoading(true);
-            await signup(emailRef.current && emailRef.current.value, passwordRef.current && passwordRef.current.value);
+            await signup(emailRef.current && emailRef.current.value, passwordRef.current && passwordRef.current.value).then((cred: any) => {
+                console.log(cred.user.uid);
+            });
         } catch (error) {
             if (error.code === "auth/invalid-email") {
                 setOpenSnackbar(true);
@@ -86,6 +89,7 @@ const Signup: React.FC<SignupProps> = () => {
                     Sign Up
                 </Typography>
                 <form className={classes.form} autoComplete="off" onSubmit={handleSubmit}>
+                    <TextField id="name-input" className={classes.formInput} label="Name" type="text" variant="outlined" fullWidth required inputRef={nameRef} />
                     <TextField
                         id="email-input"
                         className={classes.formInput}
