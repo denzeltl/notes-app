@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { makeStyles, TextField, Button, Typography, Paper, Link, Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { useAuth } from "../contexts/AuthContext";
+import { useFirestore } from "../contexts/FirestoreContext";
 import { Link as RouterLink } from "react-router-dom";
 
 function Alert(props: AlertProps) {
@@ -38,6 +39,7 @@ const Signup: React.FC<SignupProps> = () => {
     const passwordRef = useRef<HTMLInputElement>();
     const confirmPasswordRef = useRef<HTMLInputElement>();
     const { signup }: any = useAuth();
+    const { addAccountName }: any = useFirestore();
     const [error, setError] = useState("");
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -61,7 +63,7 @@ const Signup: React.FC<SignupProps> = () => {
         try {
             setLoading(true);
             await signup(emailRef.current && emailRef.current.value, passwordRef.current && passwordRef.current.value).then((cred: any) => {
-                console.log(cred.user.uid);
+                addAccountName(cred.user.uid, nameRef.current && nameRef.current.value);
             });
         } catch (error) {
             if (error.code === "auth/invalid-email") {

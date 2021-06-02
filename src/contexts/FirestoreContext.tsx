@@ -22,6 +22,12 @@ export function FirestoreProvider({ children }: FirestoreProps) {
     const [selectedNote, setSelectedNote] = useState(null);
     const [notes, setNotes] = useState<firebase.default.firestore.DocumentData[] | null>(null);
 
+    function addAccountName(cred: string, name: string) {
+        return firestore.collection("users").doc(cred).set({
+            name,
+        });
+    }
+
     useEffect(() => {
         const fetchNotes = firestore.collection("notes").onSnapshot((serverUpdate) => {
             const notes = serverUpdate.docs.map((_doc) => {
@@ -36,7 +42,9 @@ export function FirestoreProvider({ children }: FirestoreProps) {
         return fetchNotes;
     }, []);
 
-    const value: any = {};
+    const value: any = {
+        addAccountName,
+    };
 
     return <FirestoreContext.Provider value={value}>{children}</FirestoreContext.Provider>;
 }
