@@ -2,11 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { AuthProvider } from "./contexts/AuthContext";
-import { BrowserRouter as Router } from "react-router-dom";
+import { FirestoreProvider } from "./contexts/FirestoreContext";
 
 const theme = createMuiTheme({
     palette: {
@@ -51,7 +52,9 @@ ReactDOM.render(
     <Router>
         <ThemeProvider theme={theme}>
             <AuthProvider>
-                <App />
+                <FirestoreProvider>
+                    <App />
+                </FirestoreProvider>
             </AuthProvider>
         </ThemeProvider>
     </Router>,
