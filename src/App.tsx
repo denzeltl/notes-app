@@ -9,10 +9,6 @@ import PrivateRoute from "./components/PrivateRoute";
 import PrivateRouteUser from "./components/PrivateRouteUser";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        height: "100vh",
-    },
-    main: {},
     wrapper: {
         height: "100vh",
         display: "flex",
@@ -20,27 +16,18 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
         alignItems: "center",
     },
-    headerTitle: {
-        textAlign: "center",
-        padding: "3rem 0",
-    },
 }));
 
-interface AppProps {}
-
-const App: React.FC<AppProps> = () => {
+const App: React.FC = () => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-            <main className={classes.main}></main>
-            <div className={classes.wrapper}>
-                <Switch>
-                    <PrivateRoute exact path="/" component={Dashboard} />
-                    <PrivateRouteUser path="/signup" component={Signup} />
-                    <PrivateRouteUser path="/login" component={Login} />
-                </Switch>
-            </div>
+        <div className={classes.wrapper}>
+            <Switch>
+                <PrivateRoute exact path="/" component={Dashboard} />
+                <PrivateRouteUser path="/signup" component={Signup} />
+                <PrivateRouteUser path="/login" component={Login} />
+            </Switch>
         </div>
     );
 };
