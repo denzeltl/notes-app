@@ -9,12 +9,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import PrivateRouteUser from "./components/PrivateRouteUser";
 
 const useStyles = makeStyles((theme) => ({
-    wrapper: {
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
+    root: {
+        // height: "100vh",
+        // padding: "0 2rem",
     },
 }));
 
@@ -22,7 +19,7 @@ const App: React.FC = () => {
     const classes = useStyles();
 
     return (
-        <div className={classes.wrapper}>
+        <div className={classes.root}>
             <Switch>
                 <PrivateRoute exact path="/" component={Dashboard} />
                 <PrivateRouteUser path="/signup" component={Signup} />

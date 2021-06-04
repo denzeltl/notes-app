@@ -10,6 +10,14 @@ function Alert(props: AlertProps) {
 }
 
 const useStyles = makeStyles((theme) => ({
+    wrapper: {
+        height: "100vh",
+        padding: "0 2rem",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+    },
     root: {
         maxWidth: "400px",
         width: "100%",
@@ -85,61 +93,63 @@ const Signup: React.FC<SignupProps> = () => {
     }
 
     return (
-        <div className={classes.root}>
-            <Paper elevation={2} className={classes.paper}>
-                <Typography variant="h4" component="h2" className={classes.title}>
-                    Sign Up
-                </Typography>
-                <form className={classes.form} autoComplete="off" onSubmit={handleSubmit}>
-                    <TextField id="name-input" className={classes.formInput} label="Name" type="text" variant="outlined" fullWidth required inputRef={nameRef} />
-                    <TextField
-                        id="email-input"
-                        className={classes.formInput}
-                        label="Email Address"
-                        type="email"
-                        variant="outlined"
-                        fullWidth
-                        helperText="Feel free to input a fake email"
-                        required
-                        inputRef={emailRef}
-                    />
-                    <TextField
-                        id="password-input"
-                        className={classes.formInput}
-                        label="Password"
-                        type="password"
-                        variant="outlined"
-                        fullWidth
-                        autoComplete="current-password"
-                        required
-                        inputRef={passwordRef}
-                    />
-                    <TextField
-                        id="confirm-password-input"
-                        className={classes.formInput}
-                        label="Confirm Password"
-                        type="password"
-                        variant="outlined"
-                        fullWidth
-                        autoComplete="current-password"
-                        required
-                        inputRef={confirmPasswordRef}
-                    />
-                    <Button variant="contained" color="primary" type="submit" fullWidth size="large" disabled={loading}>
+        <div className={classes.wrapper}>
+            <div className={classes.root}>
+                <Paper elevation={2} className={classes.paper}>
+                    <Typography variant="h4" component="h2" className={classes.title}>
                         Sign Up
-                    </Button>
-                </form>
-            </Paper>
-            <Typography variant="body1">
-                <Link component={RouterLink} to="/login">
-                    Already have an account? Log In
-                </Link>
-            </Typography>
-            <Snackbar autoHideDuration={4000} onClose={handleSnackbarClose} open={openSnackbar}>
-                <Alert onClose={handleSnackbarClose} severity="error">
-                    <Typography>{error}</Typography>
-                </Alert>
-            </Snackbar>
+                    </Typography>
+                    <form className={classes.form} autoComplete="off" onSubmit={handleSubmit}>
+                        <TextField id="name-input" className={classes.formInput} label="Name" type="text" variant="outlined" fullWidth required inputRef={nameRef} />
+                        <TextField
+                            id="email-input"
+                            className={classes.formInput}
+                            label="Email Address"
+                            type="email"
+                            variant="outlined"
+                            fullWidth
+                            helperText="Feel free to input a fake email"
+                            required
+                            inputRef={emailRef}
+                        />
+                        <TextField
+                            id="password-input"
+                            className={classes.formInput}
+                            label="Password"
+                            type="password"
+                            variant="outlined"
+                            fullWidth
+                            autoComplete="current-password"
+                            required
+                            inputRef={passwordRef}
+                        />
+                        <TextField
+                            id="confirm-password-input"
+                            className={classes.formInput}
+                            label="Confirm Password"
+                            type="password"
+                            variant="outlined"
+                            fullWidth
+                            autoComplete="current-password"
+                            required
+                            inputRef={confirmPasswordRef}
+                        />
+                        <Button variant="contained" color="primary" type="submit" fullWidth size="large" disabled={loading}>
+                            Sign Up
+                        </Button>
+                    </form>
+                </Paper>
+                <Typography variant="body1">
+                    <Link component={RouterLink} to="/login">
+                        Already have an account? Log In
+                    </Link>
+                </Typography>
+                <Snackbar autoHideDuration={4000} onClose={handleSnackbarClose} open={openSnackbar}>
+                    <Alert onClose={handleSnackbarClose} severity="error">
+                        <Typography>{error}</Typography>
+                    </Alert>
+                </Snackbar>
+            </div>
         </div>
     );
 };
