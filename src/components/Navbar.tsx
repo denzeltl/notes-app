@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
         background: "#fff",
         [theme.breakpoints.down("xl")]: {},
     },
+    searchNotesContainer: {
+        maxWidth: "20rem",
+        width: "100%",
+    },
     accountContainer: {
         width: "auto",
     },
@@ -25,14 +29,13 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: "-3px",
     },
     paper: {
-        padding: "2rem",
-        marginBottom: "1rem",
+        padding: "1.5rem",
     },
-    title: {
-        marginBottom: "1rem",
+    accountTitle: {
+        marginBottom: "0.8rem",
     },
-    user: {
-        marginBottom: "1rem",
+    accountUser: {
+        marginBottom: "0.8rem",
     },
 }));
 
@@ -80,12 +83,12 @@ const Navbar: React.FC<NavbarProps> = () => {
     return (
         <div className={classes.root}>
             <Grid container justify="space-between" alignItems="center">
-                <Grid container spacing={1} alignItems="flex-end" className={classes.accountContainer}>
+                <Grid container spacing={1} alignItems="flex-end" className={classes.searchNotesContainer}>
                     <Grid item>
                         <SearchIcon />
                     </Grid>
-                    <Grid item>
-                        <TextField id="search-notes" label="Search notes" />
+                    <Grid item xs={10}>
+                        <TextField id="search-notes" label="Search notes" fullWidth />
                     </Grid>
                 </Grid>
                 <Grid container alignItems="center" item className={classes.accountContainer}>
@@ -98,10 +101,10 @@ const Navbar: React.FC<NavbarProps> = () => {
                     </IconButton>
                     <Popper id={account} open={openAccount} anchorEl={accountEl}>
                         <Paper elevation={2} className={classes.paper}>
-                            <Typography variant="h4" component="h2" className={classes.title}>
-                                Profile
+                            <Typography variant="h6" component="h3" className={classes.accountTitle}>
+                                Account
                             </Typography>
-                            <Typography variant="body1" className={classes.user}>
+                            <Typography variant="body1" className={classes.accountUser}>
                                 Email: {currentUser.email}
                             </Typography>
                             <Button variant="contained" color="primary" type="submit" fullWidth size="large" disabled={loading} onClick={handleLogout}>
