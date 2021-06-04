@@ -79,10 +79,10 @@ const Signup: React.FC<SignupProps> = () => {
                 setError("Please enter a valid email");
             } else if (error.code === "auth/weak-password") {
                 setOpenSnackbar(true);
-                setError("Password is too weak");
+                setError("Password must be at least 6 characters");
             } else if (error.code === "auth/email-already-in-use") {
                 setOpenSnackbar(true);
-                setError("Email is already existing");
+                setError("Email is already taken");
             } else {
                 setOpenSnackbar(true);
                 setError("Failed to create an account");
