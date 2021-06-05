@@ -1,11 +1,18 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
+import MainEditor from "./MainEditor";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         height: "100vh",
         background: "#f1f1f1",
+        display: "flex",
+        flexDirection: "column",
+    },
+    bodyContainer: {
+        flex: 1,
     },
 }));
 
@@ -17,6 +24,14 @@ const Dashboard: React.FC<DashboardProps> = () => {
     return (
         <div className={classes.root}>
             <Navbar />
+            <Grid container className={classes.bodyContainer}>
+                <Grid item xs={5}>
+                    <Sidebar />
+                </Grid>
+                <Grid item xs={7}>
+                    <MainEditor />
+                </Grid>
+            </Grid>
         </div>
     );
 };

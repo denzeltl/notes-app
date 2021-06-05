@@ -61,7 +61,7 @@ const Login: React.FC<LoginProps> = () => {
 
         try {
             setLoading(true);
-            await login(emailRef.current && emailRef.current.value, passwordRef.current && passwordRef.current.value);
+            await login(emailRef.current?.value, passwordRef.current?.value);
             setError("");
             history.push("/");
         } catch (error) {

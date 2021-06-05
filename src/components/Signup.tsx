@@ -63,15 +63,15 @@ const Signup: React.FC<SignupProps> = () => {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
 
-        if (passwordRef.current && confirmPasswordRef.current && passwordRef.current.value !== confirmPasswordRef.current.value) {
+        if (passwordRef.current?.value !== confirmPasswordRef.current?.value) {
             setOpenSnackbar(true);
             return setError("Passwords do not match");
         }
 
         try {
             setLoading(true);
-            await signup(emailRef.current && emailRef.current.value, passwordRef.current && passwordRef.current.value).then((cred: any) => {
-                addAccountName(cred.user.uid, nameRef.current && nameRef.current.value);
+            await signup(emailRef.current?.value, passwordRef.current?.value).then((cred: any) => {
+                addAccountName(cred.user.uid, nameRef.current?.value);
             });
         } catch (error) {
             if (error.code === "auth/invalid-email") {

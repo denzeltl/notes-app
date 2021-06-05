@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("xl")]: {},
     },
     searchNotesContainer: {
-        maxWidth: "20rem",
+        maxWidth: "25rem",
         width: "100%",
     },
     accountContainer: {
@@ -33,9 +33,11 @@ const useStyles = makeStyles((theme) => ({
     },
     accountTitle: {
         marginBottom: "0.8rem",
+        textAlign: "center",
     },
     accountUser: {
         marginBottom: "0.8rem",
+        textAlign: "center",
     },
 }));
 

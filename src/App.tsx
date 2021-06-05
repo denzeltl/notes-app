@@ -9,10 +9,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import PrivateRouteUser from "./components/PrivateRouteUser";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        // height: "100vh",
-        // padding: "0 2rem",
-    },
+    root: {},
 }));
 
 const App: React.FC = () => {
