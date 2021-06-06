@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
     root: {
         background: "#cacaca",
-        padding: "1rem 2rem 1rem 1rem",
+        padding: "2rem 2rem 2rem 1rem",
         height: "100%",
         [theme.breakpoints.down("xl")]: {},
     },
