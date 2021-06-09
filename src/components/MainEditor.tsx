@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import ReactQuill from "react-quill";
+import { useDebouncedCallback } from "use-debounce";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,10 +15,22 @@ interface MainEditorProps {}
 
 const MainEditor: React.FC<MainEditorProps> = () => {
     const classes = useStyles();
+    const [noteText, setNoteText] = useState("");
+    const [noteTitle, setNoteTitle] = useState("");
+    const [noteId, setNoteId] = useState("");
+
+    const updateNote = async (val: any) => {
+        await setNoteText(val);
+        debounced();
+    };
+
+    const debounced = useDebouncedCallback(() => {
+        console.log("object");
+    }, 1500);
 
     return (
         <div className={classes.root}>
-            <ReactQuill value={"asd"} onChange={() => console.log("object")} />
+            <ReactQuill value={noteText} onChange={updateNote} />
         </div>
     );
 };
