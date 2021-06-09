@@ -28,6 +28,12 @@ export function FirestoreProvider({ children }: FirestoreProps) {
         });
     }
 
+    function addAccountNote(cred: string, note: { body: string; title: string }) {
+        return firestore.collection("notes").doc(cred).set({
+            note,
+        });
+    }
+
     useEffect(() => {
         const fetchNotes = firestore.collection("notes").onSnapshot((serverUpdate) => {
             const notes = serverUpdate.docs.map((_doc) => {
@@ -35,7 +41,6 @@ export function FirestoreProvider({ children }: FirestoreProps) {
                 data["id"] = _doc.id;
                 return data;
             });
-            console.log(notes);
             setNotes(notes);
         });
 
@@ -43,6 +48,9 @@ export function FirestoreProvider({ children }: FirestoreProps) {
     }, []);
 
     const value: any = {
+        selectedNoteIndex,
+        selectedNote,
+        notes,
         addAccountName,
     };
 

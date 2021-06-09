@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles, Grid, Typography, IconButton, Paper } from "@material-ui/core";
 import { AddCircleOutline as AddCircleOutlineIcon } from "@material-ui/icons";
+import { useFirestore } from "../contexts/FirestoreContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
         width: "33%",
     },
     noteTitle: {
-        marginBottom: "0.2rem",
+        marginBottom: "0.4rem",
+        lineHeight: 1.4,
     },
     noteBody: {
         marginBottom: "0.5rem",
@@ -37,8 +39,25 @@ const useStyles = makeStyles((theme) => ({
 
 interface SidebarProps {}
 
+interface INoteItem {
+    body: string;
+    id: string;
+    title: string;
+    selectedNoteIndex: any;
+    selectNote: () => {};
+    deleteNote: () => {};
+}
+
 const Sidebar: React.FC<SidebarProps> = () => {
     const classes = useStyles();
+    const { notes, selectedNoteIndex }: any = useFirestore();
+
+    const selectNote = () => {
+        console.log("select note");
+    };
+    const deleteNote = () => {
+        console.log("select note");
+    };
 
     return (
         <Grid container direction="column" className={classes.root}>
@@ -52,6 +71,28 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 </IconButton>
             </Grid>
             <Grid container item spacing={2} className={classes.noteList}>
+                {notes ? (
+                    notes.map((_note: INoteItem, _index: number) => {
+                        console.log(_note);
+                        return (
+                            <Grid item className={classes.noteItem} key={_index}>
+                                <Paper elevation={2} className={classes.paper}>
+                                    <Typography variant="h6" component="h4" className={classes.noteTitle}>
+                                        {_note.title}
+                                    </Typography>
+                                    <Typography variant="body1" className={classes.noteBody}>
+                                        {_note.body}
+                                    </Typography>
+                                    <Typography variant="body2" className={classes.noteDate}>
+                                        Jun 6, 2021
+                                    </Typography>
+                                </Paper>
+                            </Grid>
+                        );
+                    })
+                ) : (
+                    <Typography>Loading...</Typography>
+                )}
                 <Grid item className={classes.noteItem}>
                     <Paper elevation={2} className={classes.paper}>
                         <Typography variant="h6" component="h4" className={classes.noteTitle}>
