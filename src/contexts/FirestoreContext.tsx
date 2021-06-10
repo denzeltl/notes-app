@@ -5,7 +5,7 @@ interface FirestoreProps {
     children: JSX.Element | JSX.Element[];
 }
 
-interface INotes {
+interface INote {
     id: string;
     title: string;
     body: string;
@@ -18,8 +18,8 @@ export function useFirestore() {
 }
 
 export function FirestoreProvider({ children }: FirestoreProps) {
-    const [selectedNoteIndex, setSelectedNoteIndex] = useState(null);
-    const [selectedNote, setSelectedNote] = useState(null);
+    const [selectedNoteIndex, setSelectedNoteIndex] = useState<number | null>(null);
+    const [selectedNote, setSelectedNote] = useState<INote | null>(null);
     const [notes, setNotes] = useState<firebase.default.firestore.DocumentData[] | null>(null);
 
     function addAccountName(cred: string, name: string) {
@@ -33,6 +33,13 @@ export function FirestoreProvider({ children }: FirestoreProps) {
             note,
         });
     }
+
+    function selectNote(note: INote, index: any) {
+        setSelectedNote(note);
+        setSelectedNoteIndex(index);
+    }
+
+    function deleteNote() {}
 
     useEffect(() => {
         const fetchNotes = firestore.collection("notes").onSnapshot((serverUpdate) => {
@@ -52,6 +59,7 @@ export function FirestoreProvider({ children }: FirestoreProps) {
         selectedNote,
         notes,
         addAccountName,
+        selectNote,
     };
 
     return <FirestoreContext.Provider value={value}>{children}</FirestoreContext.Provider>;

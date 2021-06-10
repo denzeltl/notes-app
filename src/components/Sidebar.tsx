@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Grid, Typography, IconButton, Paper } from "@material-ui/core";
+import { makeStyles, Grid, Typography, IconButton } from "@material-ui/core";
 import { AddCircleOutline as AddCircleOutlineIcon } from "@material-ui/icons";
 import { useFirestore } from "../contexts/FirestoreContext";
 import NoteItem from "./NoteItem";
@@ -34,13 +34,6 @@ const Sidebar: React.FC<SidebarProps> = () => {
     const classes = useStyles();
     const { notes }: any = useFirestore();
 
-    const selectNote = () => {
-        console.log("select note");
-    };
-    const deleteNote = () => {
-        console.log("select note");
-    };
-
     return (
         <Grid container direction="column" className={classes.root}>
             <Grid container item alignItems="center" justify="space-between" className={classes.sidebarHeader}>
@@ -53,7 +46,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 </IconButton>
             </Grid>
             <Grid container item spacing={2} className={classes.noteList}>
-                {notes ? notes.map((_note: INoteItem, _index: number) => <NoteItem note={_note} index={_index} />) : <Typography>Loading...</Typography>}
+                {notes ? notes.map((_note: INoteItem, _index: number) => <NoteItem note={_note} index={_index} key={_index} />) : <Typography>Loading...</Typography>}
             </Grid>
         </Grid>
     );

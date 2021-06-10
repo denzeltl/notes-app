@@ -1,6 +1,8 @@
 import React from "react";
-import { makeStyles, Grid, Paper, Typography } from "@material-ui/core";
+import { makeStyles, Grid, Paper, Typography, ButtonBase } from "@material-ui/core";
 import { useFirestore } from "../contexts/FirestoreContext";
+import clsx from "clsx";
+import { removeHTMLTags } from "../helpers";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -8,12 +10,21 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         padding: "1rem",
+        textAlign: "left",
+        width: "100%",
+    },
+    selected: {
+        background: "#F3F0DA",
     },
     noteItem: {
         width: "33%",
     },
+    buttonBase: {
+        width: "100%",
+    },
     noteTitle: {
         marginBottom: "0.4rem",
+        fontWeight: 600,
         lineHeight: 1.4,
     },
     noteBody: {
@@ -29,23 +40,25 @@ interface NoteItemProps {
     index: number;
 }
 
-const NoteItem: React.FC<NoteItemProps> = ({ note }, index) => {
+const NoteItem: React.FC<NoteItemProps> = ({ note, index }) => {
     const classes = useStyles();
-    const { selectedNoteIndex }: any = useFirestore();
+    const { selectedNoteIndex, selectNote }: any = useFirestore();
 
     return (
-        <Grid item className={classes.noteItem} key={index}>
-            <Paper elevation={2} className={classes.paper}>
-                <Typography variant="h6" component="h4" className={classes.noteTitle}>
-                    {note.title}
-                </Typography>
-                <Typography variant="body1" className={classes.noteBody}>
-                    {note.body.length < 30 ? note.body : note.body.substring(0, 30) + "..."}
-                </Typography>
-                <Typography variant="body2" className={classes.noteDate}>
-                    Jun 6, 2021
-                </Typography>
-            </Paper>
+        <Grid item className={classes.noteItem}>
+            <ButtonBase onClick={() => selectNote(note, index)} className={classes.buttonBase}>
+                <Paper elevation={2} className={clsx(classes.paper, selectedNoteIndex === index ? classes.selected : "")}>
+                    <Typography variant="h6" component="h4" className={classes.noteTitle}>
+                        {note.title}
+                    </Typography>
+                    <Typography variant="body1" className={classes.noteBody}>
+                        {note.body.length < 30 ? removeHTMLTags(note.body) : removeHTMLTags(note.body.substring(0, 30)) + "..."}
+                    </Typography>
+                    <Typography variant="body2" className={classes.noteDate}>
+                        Jun 6, 2021
+                    </Typography>
+                </Paper>
+            </ButtonBase>
         </Grid>
     );
 };

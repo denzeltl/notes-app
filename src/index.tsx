@@ -12,10 +12,10 @@ import { FirestoreProvider } from "./contexts/FirestoreContext";
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: "#267fa6",
+            main: "#7B7554",
         },
         secondary: {
-            main: "#eb7628",
+            main: "#091E05",
         },
         success: {
             main: "#42b347",
