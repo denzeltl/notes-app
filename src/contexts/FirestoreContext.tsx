@@ -54,6 +54,15 @@ export function FirestoreProvider({ children }: FirestoreProps) {
         return fetchNotes;
     }, []);
 
+    useEffect(() => {
+        if (notes) {
+            const lastNote: any = notes[notes.length - 1];
+            const lastNoteIndex = notes.length - 1;
+            setSelectedNote(lastNote);
+            setSelectedNoteIndex(lastNoteIndex);
+        }
+    }, [notes]);
+
     const value: any = {
         selectedNoteIndex,
         selectedNote,
