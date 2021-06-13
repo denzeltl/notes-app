@@ -45,7 +45,7 @@ interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
     const classes = useStyles();
-    const { currentUser, logout }: any = useAuth();
+    const { currentUser, currentUserName, logout }: any = useAuth();
     const [error, setError] = useState("");
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -95,7 +95,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                 </Grid>
                 <Grid container alignItems="center" item className={classes.accountContainer}>
                     <Typography variant="h6" component="h2" className={classes.welcomeHeading}>
-                        Welcome, Denzel!
+                        Welcome {currentUserName}!
                     </Typography>
                     <IconButton aria-describedby={account} edge="start" size="small" onClick={handleAccountClick}>
                         <AccountCircleIcon fontSize="large" />

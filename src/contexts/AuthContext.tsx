@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "../firebase";
+import { auth, firestore } from "../firebase";
 
 interface AuthProps {
     children: JSX.Element | JSX.Element[];
@@ -13,6 +13,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }: AuthProps) {
     const [currentUser, setCurrentUser] = useState<any>(null);
+    const [currentUserName, setCurrentUserName] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
     function signup(email: string, password: string) {
@@ -29,6 +30,13 @@ export function AuthProvider({ children }: AuthProps) {
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
+            firestore
+                .collection("users")
+                .doc(user?.uid)
+                .get()
+                .then((doc) => {
+                    setCurrentUserName(doc.data()?.name);
+                });
             setCurrentUser(user);
             setLoading(false);
         });
@@ -38,6 +46,7 @@ export function AuthProvider({ children }: AuthProps) {
 
     const value: any = {
         currentUser,
+        currentUserName,
         signup,
         login,
         logout,
