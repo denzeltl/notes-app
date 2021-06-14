@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { firestore } from "../firebase";
+import { firestore, auth } from "../firebase";
 
 interface FirestoreProps {
     children: JSX.Element | JSX.Element[];
@@ -42,14 +42,19 @@ export function FirestoreProvider({ children }: FirestoreProps) {
     function deleteNote() {}
 
     useEffect(() => {
-        const fetchNotes = firestore.collection("notes").onSnapshot((serverUpdate) => {
-            const notes = serverUpdate.docs.map((_doc) => {
-                const data = _doc.data();
-                data["id"] = _doc.id;
-                return data;
+        const fetchNotes = firestore
+            .collection("notes")
+            .doc(auth.currentUser?.uid)
+            .collection("notesList")
+            .onSnapshot((serverUpdate) => {
+                const notes = serverUpdate.docs.map((_doc) => {
+                    const data = _doc.data();
+                    data["id"] = _doc.id;
+                    console.log(data);
+                    return data;
+                });
+                setNotes(notes);
             });
-            setNotes(notes);
-        });
 
         return fetchNotes;
     }, []);
