@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import MainEditor from "./MainEditor";
+import { useFirestore } from "../contexts/FirestoreContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,6 +21,13 @@ interface DashboardProps {}
 
 const Dashboard: React.FC<DashboardProps> = () => {
     const classes = useStyles();
+    const { fetchNotes }: any = useFirestore();
+
+    useEffect(() => {
+        fetchNotes();
+
+        return fetchNotes();
+    }, []);
 
     return (
         <div className={classes.root}>

@@ -51,8 +51,11 @@ export function FirestoreProvider({ children }: FirestoreProps) {
 
     function deleteNote() {}
 
-    useEffect(() => {
-        const fetchNotes = firestore
+    function fetchNotes() {
+        setSelectedNoteIndex(null);
+        setSelectedNote(null);
+        setNotes(null);
+        firestore
             .collection("notes")
             .doc(auth.currentUser?.uid)
             .collection("notesList")
@@ -64,9 +67,7 @@ export function FirestoreProvider({ children }: FirestoreProps) {
                 });
                 setNotes(notes);
             });
-
-        return fetchNotes;
-    }, []);
+    }
 
     // useEffect(() => {
     //     if (notes) {
@@ -81,6 +82,7 @@ export function FirestoreProvider({ children }: FirestoreProps) {
         selectedNoteIndex,
         selectedNote,
         notes,
+        fetchNotes,
         addAccountName,
         selectNote,
         updateNote,
