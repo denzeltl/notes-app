@@ -19,16 +19,16 @@ const MainEditor: React.FC<MainEditorProps> = () => {
     const [noteText, setNoteText] = useState("");
     const [noteTitle, setNoteTitle] = useState("");
     const [noteId, setNoteId] = useState("");
-    const { selectedNote }: any = useFirestore();
+    const { selectedNote, updateNote }: any = useFirestore();
 
-    const updateNote = async (val: any) => {
+    const updateBody = async (val: any) => {
         await setNoteText(val);
         debounced();
     };
 
     const debounced = useDebouncedCallback(() => {
-        console.log("object");
-    }, 1500);
+        updateNote(noteId, { body: noteText, title: noteTitle });
+    }, 1000);
 
     useEffect(() => {
         if (selectedNote) {
@@ -38,7 +38,7 @@ const MainEditor: React.FC<MainEditorProps> = () => {
         }
     }, [selectedNote]);
 
-    return <div className={classes.root}>{selectedNote ? <ReactQuill value={noteText} onChange={updateNote} /> : <Typography>Please create a note</Typography>}</div>;
+    return <div className={classes.root}>{selectedNote ? <ReactQuill value={noteText} onChange={updateBody} /> : <Typography>Please create a note</Typography>}</div>;
 };
 
 export default MainEditor;

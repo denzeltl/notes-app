@@ -70,7 +70,6 @@ const Navbar: React.FC<NavbarProps> = () => {
         setError("");
 
         try {
-            console.log("object");
             setLoading(true);
             await logout();
             history.push("/login");
