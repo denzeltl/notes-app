@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface NoteItemProps {
-    note: { body: string; id: string; title: string };
+    note: { body: string; id: string; title: string; timestamp?: any };
     index: number;
 }
 
@@ -55,7 +55,8 @@ const NoteItem: React.FC<NoteItemProps> = ({ note, index }) => {
                         {note.body.length < 30 ? removeHTMLTags(note.body) : removeHTMLTags(note.body.substring(0, 30)) + "..."}
                     </Typography>
                     <Typography variant="body2" className={classes.noteDate}>
-                        Jun 6, 2021
+                        {/* TODO: display the note timestamp */}
+                        Note Timestamp
                     </Typography>
                 </Paper>
             </ButtonBase>

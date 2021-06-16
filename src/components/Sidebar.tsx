@@ -28,11 +28,12 @@ interface INoteItem {
     body: string;
     id: string;
     title: string;
+    timestamp?: any;
 }
 
 const Sidebar: React.FC<SidebarProps> = () => {
     const classes = useStyles();
-    const { notes }: any = useFirestore();
+    const { notes, addAccountNote }: any = useFirestore();
 
     return (
         <Grid container direction="column" className={classes.root}>
@@ -40,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 <Typography variant="h4" component="h1">
                     Notes
                 </Typography>
-                <IconButton aria-label="new note" edge="start" size="small">
+                <IconButton aria-label="new note" edge="start" size="small" onClick={addAccountNote}>
                     <AddCircleOutlineIcon className={classes.addIcon} />
                     <Typography variant="body1">Add new note</Typography>
                 </IconButton>
