@@ -62,7 +62,10 @@ export function FirestoreProvider({ children }: FirestoreProps) {
         setSelectedNoteIndex(newNoteIndex);
     }
 
-    function deleteNote() {}
+    function deleteNote(note: INote) {
+        const noteIndex = notes.indexOf(note);
+        firestore.collection("notes").doc(auth.currentUser?.uid).collection("notesList").doc(note.id).delete();
+    }
 
     console.log(notes);
 
@@ -103,6 +106,7 @@ export function FirestoreProvider({ children }: FirestoreProps) {
         selectNote,
         updateNote,
         addAccountNote,
+        deleteNote,
     };
 
     return <FirestoreContext.Provider value={value}>{children}</FirestoreContext.Provider>;
