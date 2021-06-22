@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles, Typography, Grid, IconButton } from "@material-ui/core";
+import { makeStyles, Typography, Grid, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@material-ui/core";
 import ReactQuill from "react-quill";
 import { useDebouncedCallback } from "use-debounce";
 import { useFirestore } from "../contexts/FirestoreContext";
@@ -14,6 +14,17 @@ const useStyles = makeStyles((theme) => ({
     deleteIcon: {
         marginRight: "0.2rem",
     },
+    noteTitle: {
+        fontWeight: "bold",
+    },
+    dialog: {
+        "& .MuiPaper-root": {
+            padding: "1rem",
+        },
+    },
+    dialogYesButton: {
+        fontWeight: "bold",
+    },
 }));
 
 interface MainEditorProps {}
@@ -24,6 +35,20 @@ const MainEditor: React.FC<MainEditorProps> = () => {
     const [noteTitle, setNoteTitle] = useState("");
     const [noteId, setNoteId] = useState("");
     const { selectedNote, updateNote, deleteNote }: any = useFirestore();
+    const [openDialog, setOpenDialog] = React.useState(false);
+
+    const handleDialogOpen = () => {
+        setOpenDialog(true);
+    };
+
+    const handleDialogClose = () => {
+        setOpenDialog(false);
+    };
+
+    const handleDialogConfirm = () => {
+        setOpenDialog(false);
+        deleteNote(selectedNote);
+    };
 
     const updateBody = async (val: any) => {
         await setNoteText(val);
@@ -48,14 +73,7 @@ const MainEditor: React.FC<MainEditorProps> = () => {
                 <>
                     <Grid container item alignItems="center" justify="space-between">
                         <Typography variant="h5">{noteTitle}</Typography>
-                        <IconButton
-                            aria-label="delete note"
-                            edge="start"
-                            size="small"
-                            onClick={() => {
-                                deleteNote(selectedNote);
-                            }}
-                        >
+                        <IconButton aria-label="delete note" edge="start" size="small" onClick={handleDialogOpen}>
                             <DeleteIcon className={classes.deleteIcon} />
                             <Typography variant="body1">Delete note</Typography>
                         </IconButton>
@@ -65,6 +83,17 @@ const MainEditor: React.FC<MainEditorProps> = () => {
             ) : (
                 <Typography>Please create a note</Typography>
             )}
+            <Dialog open={openDialog} onClose={handleDialogClose} aria-labelledby="delete-dialog-title" className={classes.dialog}>
+                <DialogTitle id="delete-dialog-title">{`Are you sure you want to delete ${noteTitle}?`}</DialogTitle>
+                <DialogActions>
+                    <Button onClick={handleDialogClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleDialogConfirm} color="primary" autoFocus className={classes.dialogYesButton}>
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };

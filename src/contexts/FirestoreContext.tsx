@@ -56,7 +56,6 @@ export function FirestoreProvider({ children }: FirestoreProps) {
         });
         const newId = addNoteToDb.id;
         await setNotes([...notes, newNote]);
-        // TODO: Select newly created note
         const newNoteIndex = notes.indexOf(notes.filter((_note: any) => _note.id === newId)[0]);
         setSelectedNote(notes[newNoteIndex]);
         setSelectedNoteIndex(newNoteIndex);
@@ -87,7 +86,7 @@ export function FirestoreProvider({ children }: FirestoreProps) {
             });
     }
 
-    // TODO: function to auto select on load the latest note
+    // TODO: function to auto select on load the latest note (ADD THIS ON ADD AND DELETE NOTE)
     // useEffect(() => {
     //     if (notes) {
     //         const lastNote: any = notes[notes.length - 1];
