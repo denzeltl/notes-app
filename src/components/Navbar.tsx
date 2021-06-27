@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, makeStyles, Typography, IconButton, TextField, Popper, Paper, Button, Snackbar } from "@material-ui/core";
+import { Grid, makeStyles, Typography, IconButton, InputBase, Popper, Paper, Button, Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { AccountCircle as AccountCircleIcon, ArrowDropDown as ArrowDropDownIcon, Search as SearchIcon } from "@material-ui/icons";
 import { useAuth } from "../contexts/AuthContext";
@@ -18,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
     searchNotesContainer: {
         maxWidth: "25rem",
         width: "100%",
+        border: "1px solid #ccc",
+        padding: "0 0.5rem",
     },
     accountContainer: {
         width: "auto",
@@ -89,7 +91,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                         <SearchIcon />
                     </Grid>
                     <Grid item xs={10}>
-                        <TextField id="search-notes" label="Search notes" fullWidth />
+                        <InputBase placeholder="Search notes" fullWidth />
                     </Grid>
                 </Grid>
                 <Grid container alignItems="center" item className={classes.accountContainer}>

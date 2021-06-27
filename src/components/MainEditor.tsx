@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles, Typography, Grid, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from "@material-ui/core";
+import { makeStyles, Typography, Grid, IconButton, Dialog, DialogTitle, InputBase, DialogActions, Button } from "@material-ui/core";
 import ReactQuill from "react-quill";
 import { useDebouncedCallback } from "use-debounce";
 import { useFirestore } from "../contexts/FirestoreContext";
@@ -11,11 +11,20 @@ const useStyles = makeStyles((theme) => ({
         height: "100%",
         [theme.breakpoints.down("xl")]: {},
     },
+    noteHeading: {
+        marginBottom: "1rem",
+    },
     deleteIcon: {
         marginRight: "0.2rem",
     },
     noteTitle: {
         fontWeight: "bold",
+        fontSize: "1.4rem",
+        background: "#fff",
+        flex: 1,
+        marginRight: "2rem",
+        border: "1px solid #ccc",
+        padding: "0.2rem 0.8rem",
     },
     dialog: {
         "& .MuiPaper-root": {
@@ -71,8 +80,8 @@ const MainEditor: React.FC<MainEditorProps> = () => {
         <div className={classes.root}>
             {selectedNote ? (
                 <>
-                    <Grid container item alignItems="center" justify="space-between">
-                        <Typography variant="h5">{noteTitle}</Typography>
+                    <Grid container item alignItems="center" justify="space-between" className={classes.noteHeading}>
+                        <InputBase className={classes.noteTitle} placeholder="Title" value={noteTitle} />
                         <IconButton aria-label="delete note" edge="start" size="small" onClick={handleDialogOpen}>
                             <DeleteIcon className={classes.deleteIcon} />
                             <Typography variant="body1">Delete note</Typography>
@@ -83,7 +92,7 @@ const MainEditor: React.FC<MainEditorProps> = () => {
             ) : (
                 <Typography>Please create a note</Typography>
             )}
-            <Dialog open={openDialog} onClose={handleDialogClose} aria-labelledby="delete-dialog-title" className={classes.dialog}>
+            <Dialog open={openDialog} aria-labelledby="delete-dialog-title" className={classes.dialog}>
                 <DialogTitle id="delete-dialog-title">{`Are you sure you want to delete ${noteTitle}?`}</DialogTitle>
                 <DialogActions>
                     <Button onClick={handleDialogClose} color="primary">
