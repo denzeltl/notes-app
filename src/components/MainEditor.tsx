@@ -7,10 +7,11 @@ import { Delete as DeleteIcon } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        height: "calc(100vh - 80px)",
         padding: "2rem 2rem 2rem 1rem",
-        height: "100%",
         [theme.breakpoints.down("xl")]: {},
     },
+    noteSection: {},
     noteHeading: {
         marginBottom: "1rem",
     },
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: "2rem",
         border: "1px solid #ccc",
         padding: "0.2rem 0.8rem",
+        borderRadius: "4px",
     },
     dialog: {
         "& .MuiPaper-root": {
@@ -33,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
     },
     dialogYesButton: {
         fontWeight: "bold",
+    },
+    reactQuill: {
+        borderRadius: "4px",
+        background: "#fff",
     },
 }));
 
@@ -79,7 +85,7 @@ const MainEditor: React.FC<MainEditorProps> = () => {
     return (
         <div className={classes.root}>
             {selectedNote ? (
-                <>
+                <Grid container direction="column" className={classes.noteSection}>
                     <Grid container item alignItems="center" justify="space-between" className={classes.noteHeading}>
                         <InputBase className={classes.noteTitle} placeholder="Title" value={noteTitle} />
                         <IconButton aria-label="delete note" edge="start" size="small" onClick={handleDialogOpen}>
@@ -87,8 +93,8 @@ const MainEditor: React.FC<MainEditorProps> = () => {
                             <Typography variant="body1">Delete note</Typography>
                         </IconButton>
                     </Grid>
-                    <ReactQuill value={noteText} onChange={updateBody} />
-                </>
+                    <ReactQuill value={noteText} onChange={updateBody} className={classes.reactQuill} />
+                </Grid>
             ) : (
                 <Typography>Please create a note</Typography>
             )}

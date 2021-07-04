@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         border: "1px solid #ccc",
         padding: "0 0.5rem",
+        borderRadius: "4px",
     },
     accountContainer: {
         width: "auto",
