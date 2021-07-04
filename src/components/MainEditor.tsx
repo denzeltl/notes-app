@@ -70,6 +70,11 @@ const MainEditor: React.FC<MainEditorProps> = () => {
         debounced();
     };
 
+    const updateTitle = async (title: string) => {
+        await setNoteTitle(title);
+        debounced();
+    };
+
     const debounced = useDebouncedCallback(() => {
         updateNote(noteId, { body: noteText, title: noteTitle });
     }, 1000);
@@ -87,7 +92,7 @@ const MainEditor: React.FC<MainEditorProps> = () => {
             {selectedNote ? (
                 <Grid container direction="column" className={classes.noteSection}>
                     <Grid container item alignItems="center" justify="space-between" className={classes.noteHeading}>
-                        <InputBase className={classes.noteTitle} placeholder="Title" value={noteTitle} />
+                        <InputBase className={classes.noteTitle} placeholder="Title" value={noteTitle} onChange={(e) => updateTitle(e.target.value)} />
                         <IconButton aria-label="delete note" edge="start" size="small" onClick={handleDialogOpen}>
                             <DeleteIcon className={classes.deleteIcon} />
                             <Typography variant="body1">Delete note</Typography>
