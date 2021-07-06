@@ -31,7 +31,7 @@ export function AuthProvider({ children }: AuthProps) {
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             firestore
-                .collection("users")
+                .collection("user")
                 .doc(user?.uid)
                 .get()
                 .then((doc) => {

@@ -25,7 +25,7 @@ export function FirestoreProvider({ children }: FirestoreProps) {
     const [notes, setNotes] = useState<any>(null);
 
     function addAccountName(cred: string, name: string) {
-        return firestore.collection("users").doc(cred).set({
+        return firestore.collection("user").doc(cred).set({
             name,
         });
     }
@@ -37,7 +37,7 @@ export function FirestoreProvider({ children }: FirestoreProps) {
 
     function updateNote(id: string, note: INote) {
         return firestore
-            .collection("notes")
+            .collection("user")
             .doc(auth.currentUser?.uid)
             .collection("notesList")
             .doc(id)
@@ -49,7 +49,7 @@ export function FirestoreProvider({ children }: FirestoreProps) {
             title: `Note ${notes?.length! + 1}`,
             body: "",
         };
-        const addNoteToDb = await firestore.collection("notes").doc(auth.currentUser?.uid).collection("notesList").add({
+        const addNoteToDb = await firestore.collection("user").doc(auth.currentUser?.uid).collection("notesList").add({
             title: newNote.title,
             body: newNote.body,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -63,17 +63,15 @@ export function FirestoreProvider({ children }: FirestoreProps) {
 
     function deleteNote(note: INote) {
         const noteIndex = notes.indexOf(note);
-        firestore.collection("notes").doc(auth.currentUser?.uid).collection("notesList").doc(note.id).delete();
+        firestore.collection("user").doc(auth.currentUser?.uid).collection("notesList").doc(note.id).delete();
     }
-
-    console.log(notes);
 
     function fetchNotes() {
         setSelectedNoteIndex(null);
         setSelectedNote(null);
         setNotes(null);
         firestore
-            .collection("notes")
+            .collection("user")
             .doc(auth.currentUser?.uid)
             .collection("notesList")
             .onSnapshot((serverUpdate) => {
