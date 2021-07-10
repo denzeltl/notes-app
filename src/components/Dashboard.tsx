@@ -27,7 +27,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
         fetchNotes();
 
         return fetchNotes();
-    }, []);
+    }, [fetchNotes]);
 
     return (
         <div className={classes.root}>
