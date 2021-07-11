@@ -27,7 +27,8 @@ const Dashboard: React.FC<DashboardProps> = () => {
         fetchNotes();
 
         return fetchNotes();
-    }, [fetchNotes]);
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <div className={classes.root}>
