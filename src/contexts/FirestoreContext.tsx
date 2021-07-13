@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { firestore, auth } from "../firebase";
 import firebase from "firebase/app";
 
@@ -62,7 +62,7 @@ export function FirestoreProvider({ children }: FirestoreProps) {
     }
 
     function deleteNote(note: INote) {
-        const noteIndex = notes.indexOf(note);
+        // const noteIndex = notes.indexOf(note);
         firestore.collection("user").doc(auth.currentUser?.uid).collection("notesList").doc(note.id).delete();
     }
 
