@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, Grid, Paper, Typography, ButtonBase } from "@material-ui/core";
 import { useFirestore } from "../contexts/FirestoreContext";
 import clsx from "clsx";
@@ -43,6 +43,15 @@ interface NoteItemProps {
 const NoteItem: React.FC<NoteItemProps> = ({ note, index }) => {
     const classes = useStyles();
     const { selectedNoteIndex, selectNote }: any = useFirestore();
+    const [convertedDate, setConvertedDate]: any = useState(null);
+    const [convertedTime, setConvertedTime]: any = useState(null);
+
+    useEffect(() => {
+        if (note.timestamp) {
+            setConvertedDate(note.timestamp.toDate().toDateString());
+            setConvertedTime(note.timestamp.toDate().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+        }
+    }, [note.timestamp]);
 
     return (
         <Grid item className={classes.noteItem}>
@@ -55,8 +64,9 @@ const NoteItem: React.FC<NoteItemProps> = ({ note, index }) => {
                         {note.body.length < 30 ? removeHTMLTags(note.body) : removeHTMLTags(note.body.substring(0, 30)) + "..."}
                     </Typography>
                     <Typography variant="body2" className={classes.noteDate}>
-                        {/* TODO: display the note timestamp */}
-                        Note Timestamp
+                        {convertedTime}
+                        <br />
+                        {convertedDate}
                     </Typography>
                 </Paper>
             </ButtonBase>

@@ -76,7 +76,9 @@ const MainEditor: React.FC<MainEditorProps> = () => {
     };
 
     const debounced = useDebouncedCallback(() => {
-        updateNote(noteId, { body: noteText, title: noteTitle });
+        if (noteText !== selectedNote.body || noteTitle !== selectedNote.title) {
+            updateNote(noteId, { body: noteText, title: noteTitle });
+        }
     }, 1000);
 
     useEffect(() => {
