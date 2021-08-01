@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { firestore, auth } from "../firebase";
 import firebase from "firebase/app";
 
@@ -59,11 +59,12 @@ export function FirestoreProvider({ children }: FirestoreProps) {
         const newNoteIndex = notes.indexOf(notes.filter((_note: any) => _note.id === newId)[0]);
         setSelectedNote(notes[newNoteIndex]);
         setSelectedNoteIndex(newNoteIndex);
+        selectFirstNote();
     }
 
     function deleteNote(note: INote) {
-        // const noteIndex = notes.indexOf(note);
         firestore.collection("user").doc(auth.currentUser?.uid).collection("notesList").doc(note.id).delete();
+        selectFirstNote();
     }
 
     function fetchNotes() {
@@ -85,20 +86,19 @@ export function FirestoreProvider({ children }: FirestoreProps) {
     }
 
     // TODO: function to auto select on load the latest note (ADD THIS ON ADD AND DELETE NOTE)
-    // useEffect(() => {
-    //     if (notes) {
-    //         const lastNote: any = notes[notes.length - 1];
-    //         const lastNoteIndex = notes.length - 1;
-    //         setSelectedNote(lastNote);
-    //         setSelectedNoteIndex(lastNoteIndex);
-    //     }
-    // }, [notes]);
+    function selectFirstNote() {
+        const firstNote: any = notes[0];
+        const firstNoteIndex = 0;
+        setSelectedNote(firstNote);
+        setSelectedNoteIndex(firstNoteIndex);
+    }
 
     const value: any = {
         selectedNoteIndex,
         selectedNote,
         notes,
         fetchNotes,
+        selectFirstNote,
         addAccountName,
         selectNote,
         updateNote,
