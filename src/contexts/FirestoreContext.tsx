@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { firestore, auth } from "../firebase";
 import firebase from "firebase/app";
 
@@ -45,26 +45,30 @@ export function FirestoreProvider({ children }: FirestoreProps) {
     }
 
     async function addAccountNote() {
+        setSelectedNote(null);
+        setSelectedNoteIndex(null);
         const newNote = {
             title: `Note ${notes?.length! + 1}`,
             body: "",
         };
-        const addNoteToDb = await firestore.collection("user").doc(auth.currentUser?.uid).collection("notesList").add({
+        await firestore.collection("user").doc(auth.currentUser?.uid).collection("notesList").add({
             title: newNote.title,
             body: newNote.body,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         });
-        const newId = addNoteToDb.id;
-        await setNotes([...notes, newNote]);
-        const newNoteIndex = notes.indexOf(notes.filter((_note: any) => _note.id === newId)[0]);
-        setSelectedNote(notes[newNoteIndex]);
-        setSelectedNoteIndex(newNoteIndex);
-        selectFirstNote();
+        // const newId = addNoteToDb.id;
+        // await setNotes([...notes, newNote]);
+        // const newNoteIndex = notes.indexOf(notes.filter((_note: any) => _note.id === newId)[0]);
+        // setSelectedNote(notes[newNoteIndex]);
+        // setSelectedNoteIndex(newNoteIndex);
+        // selectFirstNote();
     }
 
     function deleteNote(note: INote) {
+        setSelectedNote(null);
+        setSelectedNoteIndex(null);
         firestore.collection("user").doc(auth.currentUser?.uid).collection("notesList").doc(note.id).delete();
-        selectFirstNote();
+        // selectFirstNote();
     }
 
     function fetchNotes() {
@@ -97,19 +101,18 @@ export function FirestoreProvider({ children }: FirestoreProps) {
     }
 
     // TODO: function to auto select on load the latest note (ADD THIS ON ADD AND DELETE NOTE)
-    function selectFirstNote() {
-        const firstNote: any = notes[0];
-        const firstNoteIndex = 0;
-        setSelectedNote(firstNote);
-        setSelectedNoteIndex(firstNoteIndex);
-    }
+    // function selectFirstNote() {
+    //     const firstNote: any = notes[0];
+    //     const firstNoteIndex = 0;
+    //     setSelectedNote(firstNote);
+    //     setSelectedNoteIndex(firstNoteIndex);
+    // }
 
     const value: any = {
         selectedNoteIndex,
         selectedNote,
         notes,
         fetchNotes,
-        selectFirstNote,
         addAccountName,
         selectNote,
         updateNote,

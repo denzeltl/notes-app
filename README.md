@@ -14,8 +14,8 @@ View project [here](https://denzeltl-notes.netlify.app/)
 
 -   ~~Display last modified timestamp on notes~~
 -   ~~Filter notes by last modified~~
+-   ~~Fix auto select of note on addition and deletion of note~~
 -   Update notes list and editor components style
 -   Add favicon
 -   Implement mobile responsiveness
 -   Make PWA
--   Fix auto select of note on addition and deletion of note
