@@ -49,7 +49,7 @@ const MainEditor: React.FC<MainEditorProps> = () => {
     const [noteText, setNoteText] = useState("");
     const [noteTitle, setNoteTitle] = useState("");
     const [noteId, setNoteId] = useState("");
-    const { selectedNote, updateNote, deleteNote }: any = useFirestore();
+    const { selectedNote, updateNote, deleteNote, notes }: any = useFirestore();
     const [openDialog, setOpenDialog] = React.useState(false);
 
     const handleDialogOpen = () => {
@@ -89,19 +89,27 @@ const MainEditor: React.FC<MainEditorProps> = () => {
         }
     }, [selectedNote]);
 
+    console.log(notes);
+
     return (
         <div className={classes.root}>
-            {selectedNote ? (
-                <Grid container direction="column" className={classes.noteSection}>
-                    <Grid container item alignItems="center" justify="space-between" className={classes.noteHeading}>
-                        <InputBase className={classes.noteTitle} placeholder="Title" value={noteTitle} onChange={(e) => updateTitle(e.target.value)} />
-                        <IconButton aria-label="delete note" edge="start" size="small" onClick={handleDialogOpen}>
-                            <DeleteIcon className={classes.deleteIcon} />
-                            <Typography variant="body1">Delete note</Typography>
-                        </IconButton>
-                    </Grid>
-                    <ReactQuill value={noteText} onChange={updateBody} className={classes.reactQuill} />
-                </Grid>
+            {notes && notes.length > 0 ? (
+                <>
+                    {selectedNote ? (
+                        <Grid container direction="column" className={classes.noteSection}>
+                            <Grid container item alignItems="center" justify="space-between" className={classes.noteHeading}>
+                                <InputBase className={classes.noteTitle} placeholder="Title" value={noteTitle} onChange={(e) => updateTitle(e.target.value)} />
+                                <IconButton aria-label="delete note" edge="start" size="small" onClick={handleDialogOpen}>
+                                    <DeleteIcon className={classes.deleteIcon} />
+                                    <Typography variant="body1">Delete note</Typography>
+                                </IconButton>
+                            </Grid>
+                            <ReactQuill value={noteText} onChange={updateBody} className={classes.reactQuill} />
+                        </Grid>
+                    ) : (
+                        <Typography>Please select a note</Typography>
+                    )}
+                </>
             ) : (
                 <Typography>Please create a note</Typography>
             )}
