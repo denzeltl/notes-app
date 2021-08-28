@@ -40,6 +40,11 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "4px",
         background: "#fff",
     },
+    noticeTitle: {
+        textAlign: "center",
+        marginTop: "2rem",
+        color: "rgba(0, 0, 0, 0.54)",
+    },
 }));
 
 interface MainEditorProps {}
@@ -107,11 +112,15 @@ const MainEditor: React.FC<MainEditorProps> = () => {
                             <ReactQuill value={noteText} onChange={updateBody} className={classes.reactQuill} />
                         </Grid>
                     ) : (
-                        <Typography>Please select a note</Typography>
+                        <Typography className={classes.noticeTitle} variant="h6">
+                            Please select a note
+                        </Typography>
                     )}
                 </>
             ) : (
-                <Typography>Please create a note</Typography>
+                <Typography className={classes.noticeTitle} variant="h6">
+                    Please create a note
+                </Typography>
             )}
             <Dialog open={openDialog} aria-labelledby="delete-dialog-title" className={classes.dialog}>
                 <DialogTitle id="delete-dialog-title">{`Are you sure you want to delete ${noteTitle}?`}</DialogTitle>

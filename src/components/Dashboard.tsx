@@ -15,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
     bodyContainer: {
         flex: 1,
     },
+    sidebar: {
+        borderRight: "1px solid #ccc",
+    },
 }));
 
 interface DashboardProps {}
@@ -34,7 +37,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
         <div className={classes.root}>
             <Navbar />
             <Grid container className={classes.bodyContainer}>
-                <Grid item xs={5}>
+                <Grid item xs={5} className={classes.sidebar}>
                     <Sidebar />
                 </Grid>
                 <Grid item xs={7}>
