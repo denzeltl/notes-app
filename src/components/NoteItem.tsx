@@ -9,18 +9,25 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("xl")]: {},
     },
     paper: {
-        padding: "1rem",
+        padding: "0.5rem",
         textAlign: "left",
         width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
     },
     selected: {
         background: "#F3F0DA",
     },
     noteItem: {
-        width: "33%",
+        width: "100%",
+        height: "100%",
+        maxHeight: "150px",
     },
     buttonBase: {
         width: "100%",
+        height: "100%",
     },
     noteTitle: {
         marginBottom: "0.4rem",
@@ -57,12 +64,14 @@ const NoteItem: React.FC<NoteItemProps> = ({ note, index }) => {
         <Grid item className={classes.noteItem}>
             <ButtonBase onClick={() => selectNote(note, index)} className={classes.buttonBase}>
                 <Paper elevation={2} className={clsx(classes.paper, selectedNoteIndex === index ? classes.selected : "")}>
-                    <Typography variant="h6" component="h4" className={classes.noteTitle}>
-                        {note.title}
-                    </Typography>
-                    <Typography variant="body1" className={classes.noteBody}>
-                        {note.body.length < 30 ? removeHTMLTags(note.body) : removeHTMLTags(note.body.substring(0, 30)) + "..."}
-                    </Typography>
+                    <div>
+                        <Typography variant="h6" component="h4" className={classes.noteTitle}>
+                            {note.title}
+                        </Typography>
+                        <Typography variant="body1" className={classes.noteBody}>
+                            {note.body.length < 30 ? removeHTMLTags(note.body) : removeHTMLTags(note.body.substring(0, 30)) + "..."}
+                        </Typography>
+                    </div>
                     <Typography variant="body2" className={classes.noteDate}>
                         {convertedTime}
                         <br />

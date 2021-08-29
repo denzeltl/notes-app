@@ -97,7 +97,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                 </Grid>
                 <Grid container alignItems="center" item className={classes.accountContainer}>
                     <Typography variant="h6" component="h2" className={classes.welcomeHeading}>
-                        Welcome {currentUserName}!
+                        Welcome, {currentUserName}!
                     </Typography>
                     <IconButton aria-describedby={account} edge="start" size="small" onClick={handleAccountClick}>
                         <AccountCircleIcon fontSize="large" />

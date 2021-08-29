@@ -20,6 +20,12 @@ const useStyles = makeStyles((theme) => ({
         overflow: "auto",
         flex: 1,
     },
+    noteListItem: {
+        width: "33%",
+    },
+    noteListContainer: {
+        width: "100%",
+    },
 }));
 
 interface SidebarProps {}
@@ -46,8 +52,18 @@ const Sidebar: React.FC<SidebarProps> = () => {
                     <Typography variant="body1">Add new note</Typography>
                 </IconButton>
             </Grid>
-            <Grid container item spacing={2} className={classes.noteList}>
-                {notes ? notes.map((_note: INoteItem, _index: number) => <NoteItem note={_note} index={_index} key={_index} />) : <Typography>Loading...</Typography>}
+            <Grid item className={classes.noteList}>
+                <Grid container spacing={2} className={classes.noteListContainer}>
+                    {notes ? (
+                        notes.map((_note: INoteItem, _index: number) => (
+                            <Grid item className={classes.noteListItem}>
+                                <NoteItem note={_note} index={_index} key={_index} />
+                            </Grid>
+                        ))
+                    ) : (
+                        <Typography>Loading...</Typography>
+                    )}
+                </Grid>
             </Grid>
         </Grid>
     );

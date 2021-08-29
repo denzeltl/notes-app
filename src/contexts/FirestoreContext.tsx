@@ -80,22 +80,21 @@ export function FirestoreProvider({ children }: FirestoreProps) {
             .doc(auth.currentUser?.uid)
             .collection("notesList")
             .onSnapshot((serverUpdate) => {
-                const notes = serverUpdate.docs
-                    .map((_doc) => {
-                        const data = _doc.data();
-                        data["id"] = _doc.id;
-                        return data;
-                    })
-                    .sort((a, b) => {
-                        if (a.timestamp !== null && b.timestamp !== null) {
-                            const note1 = a.timestamp.seconds;
-                            const note2 = b.timestamp.seconds;
+                const notes = serverUpdate.docs.map((_doc) => {
+                    const data = _doc.data();
+                    data["id"] = _doc.id;
+                    return data;
+                });
+                // .sort((a, b) => {
+                //     if (a.timestamp !== null && b.timestamp !== null) {
+                //         const note1 = a.timestamp.seconds;
+                //         const note2 = b.timestamp.seconds;
 
-                            return note2 - note1;
-                        } else {
-                            return 1;
-                        }
-                    });
+                //         return note2 - note1;
+                //     } else {
+                //         return 1;
+                //     }
+                // });
                 setNotes(notes);
             });
     }

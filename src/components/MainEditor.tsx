@@ -11,7 +11,10 @@ const useStyles = makeStyles((theme) => ({
         padding: "2rem 2rem 2rem 1rem",
         [theme.breakpoints.down("xl")]: {},
     },
-    noteSection: {},
+    noteSection: {
+        height: "100%",
+        flexWrap: "nowrap",
+    },
     noteHeading: {
         marginBottom: "1rem",
     },
@@ -28,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
         padding: "0.2rem 0.8rem",
         borderRadius: "4px",
     },
+    noteEditor: {
+        background: "#fff",
+        flex: 1,
+    },
     dialog: {
         "& .MuiPaper-root": {
             padding: "1rem",
@@ -38,7 +45,13 @@ const useStyles = makeStyles((theme) => ({
     },
     reactQuill: {
         borderRadius: "4px",
-        background: "#fff",
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        "& .ql-container": {
+            height: "calc(100vh - 250px)",
+        },
     },
     noticeTitle: {
         textAlign: "center",
@@ -109,7 +122,9 @@ const MainEditor: React.FC<MainEditorProps> = () => {
                                     <Typography variant="body1">Delete note</Typography>
                                 </IconButton>
                             </Grid>
-                            <ReactQuill value={noteText} onChange={updateBody} className={classes.reactQuill} />
+                            <Grid item container className={classes.noteEditor}>
+                                <ReactQuill value={noteText} onChange={updateBody} className={classes.reactQuill} />
+                            </Grid>
                         </Grid>
                     ) : (
                         <Typography className={classes.noticeTitle} variant="h6">
